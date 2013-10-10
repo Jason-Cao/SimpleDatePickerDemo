@@ -19,6 +19,8 @@
 		E201E54117A9583F006BEDAC /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E201E53F17A9583F006BEDAC /* MainStoryboard_iPhone.storyboard */; };
 		E201E54417A9583F006BEDAC /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E201E54217A9583F006BEDAC /* MainStoryboard_iPad.storyboard */; };
 		E201E54717A9583F006BEDAC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E201E54617A9583F006BEDAC /* ViewController.m */; };
+		E25F002A17ACB9BF00489AD1 /* JCDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E201E54E17A958F1006BEDAC /* JCDatePicker.m */; };
+		E25F002C17ACBA0200489AD1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25F002B17ACBA0200489AD1 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,9 @@
 		E201E54317A9583F006BEDAC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		E201E54517A9583F006BEDAC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E201E54617A9583F006BEDAC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E201E54D17A958F1006BEDAC /* JCDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDatePicker.h; sourceTree = "<group>"; };
+		E201E54E17A958F1006BEDAC /* JCDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDatePicker.m; sourceTree = "<group>"; };
+		E25F002B17ACBA0200489AD1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E25F002C17ACBA0200489AD1 /* QuartzCore.framework in Frameworks */,
 				E201E52817A9583F006BEDAC /* UIKit.framework in Frameworks */,
 				E201E52A17A9583F006BEDAC /* Foundation.framework in Frameworks */,
 				E201E52C17A9583F006BEDAC /* CoreGraphics.framework in Frameworks */,
@@ -75,6 +81,7 @@
 		E201E52617A9583F006BEDAC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E25F002B17ACBA0200489AD1 /* QuartzCore.framework */,
 				E201E52717A9583F006BEDAC /* UIKit.framework */,
 				E201E52917A9583F006BEDAC /* Foundation.framework */,
 				E201E52B17A9583F006BEDAC /* CoreGraphics.framework */,
@@ -85,6 +92,8 @@
 		E201E52D17A9583F006BEDAC /* SimpleDatePickerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E201E54D17A958F1006BEDAC /* JCDatePicker.h */,
+				E201E54E17A958F1006BEDAC /* JCDatePicker.m */,
 				E201E53617A9583F006BEDAC /* AppDelegate.h */,
 				E201E53717A9583F006BEDAC /* AppDelegate.m */,
 				E201E53F17A9583F006BEDAC /* MainStoryboard_iPhone.storyboard */,
@@ -176,6 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E25F002A17ACB9BF00489AD1 /* JCDatePicker.m in Sources */,
 				E201E53417A9583F006BEDAC /* main.m in Sources */,
 				E201E53817A9583F006BEDAC /* AppDelegate.m in Sources */,
 				E201E54717A9583F006BEDAC /* ViewController.m in Sources */,
@@ -311,6 +321,7 @@
 				E201E54C17A9583F006BEDAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

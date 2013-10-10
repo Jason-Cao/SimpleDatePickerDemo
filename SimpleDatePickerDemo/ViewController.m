@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "JCDatePicker.h"
 
-@interface ViewController ()
+@interface ViewController () <JCDatePickerDelegate>
 
 @end
 
@@ -17,7 +18,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	JCDatePicker *datePicker = [[JCDatePicker alloc] initWithFrame:CGRectMake(20, 20, 300, 300)];
+    [self.view addSubview:datePicker];
 }
 
 - (void)didReceiveMemoryWarning
