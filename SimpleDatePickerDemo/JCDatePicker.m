@@ -32,6 +32,7 @@
         self.contentView.backgroundColor = [UIColor clearColor];
         self.textLabel.backgroundColor = [UIColor clearColor];
         self.textLabel.textAlignment = NSTextAlignmentCenter;
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -219,7 +220,7 @@
     _pickerColor = RGBA(0, 129, 115, 1);
     _separatorLineColor = RGBA(140, 158, 159, 1);
     _bgColor = RGBA(168, 183, 185, 1);
-    _font = [UIFont systemFontOfSize:13];
+    _font = [UIFont systemFontOfSize:9];
     _cellHeight = self.frame.size.height/5;
 }
 
