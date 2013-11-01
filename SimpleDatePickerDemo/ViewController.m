@@ -26,7 +26,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    JCDatePicker *datePicker = [[JCDatePicker alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    JCDatePicker *datePicker = [[JCDatePicker alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
     datePicker.center = CGPointMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame));
     [self.view addSubview:datePicker];
     datePicker.delegate = self;

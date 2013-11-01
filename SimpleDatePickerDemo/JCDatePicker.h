@@ -19,8 +19,15 @@
 
 @end
 
+typedef NS_ENUM(NSInteger, JCDateFormat) {
+    JCDateFormatFull = 0,
+    JCDateFormatDay,
+    JCDateFormatClock
+};
+
 @interface JCDatePicker : UIControl <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic) JCDateFormat dateFormat;
 @property (nonatomic) NSInteger startYear;
 @property (nonatomic) NSInteger yearRange;
 @property (nonatomic) NSRange rangeOfYear;

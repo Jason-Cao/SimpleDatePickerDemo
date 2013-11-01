@@ -7,15 +7,21 @@
 //
 #define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
 //#define CELL_HEIGHT 35
-#define CELL_WIDTH_YEAR 66
-#define CELL_WIDTH_MONTH 59
-#define CELL_WIDTH_DAY 59
-#define YEARS_TAG 0
-#define MONTHS_TAG 1
-#define DAYS_TAG 2
+//#define CELL_WIDTH_
 #define CELL_WIDTH_YEAR_PERCENTAGE 0.4
 #define CELL_WIDTH_MONTH_PERCENTAGE 0.3
 #define CELL_WIDTH_DAY_PERCENTAGE 0.3
+#define CELL_WIDTH_YEAR 66
+#define CELL_WIDTH_MONTH 59
+#define CELL_WIDTH_DAY 59
+#define YEAR_TAG 0
+#define MONTH_TAG 1
+#define DAY_TAG 2
+#define HOUR_TAG 3
+#define MINUTE_TAG 4
+#define SECOND_TAG 5
+
+
 
 void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, CGColorRef color)
 {
@@ -36,6 +42,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     NSArray *colors = @[(__bridge id) startColor, (__bridge id) endColor];
     
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, locations);
+    
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
     CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
@@ -84,7 +91,27 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
         self.textLabel.font = _textFont;
         self.textLabel.textColor = [UIColor blackColor];
     }
-    
+}
+
+@end
+
+@interface DatePickerTableView : UITableView
+
+- (id)initWithFrame:(CGRect)frame;
+
+@end
+
+@implementation DatePickerTableView
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame style:UITableViewStylePlain];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.showsVerticalScrollIndicator = NO;
+        self.separatorStyle  = UITableViewCellSeparatorStyleNone;
+    }
+    return self;
 }
 
 @end
@@ -95,6 +122,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 @property (nonatomic, strong) UIColor *bannerColor;
 @property (nonatomic, strong) UIColor *separatorLineColor;
 @property (nonatomic) float bannerHeight;
+@property (nonatomic) JCDateFormat dateFormat;
 
 - (id)initWithFrame:(CGRect)frame;
 
@@ -111,61 +139,49 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     return self;
 }
 
-- (void)layoutSubviews
+- (void)setDateFormat:(JCDateFormat)dateFormat
 {
-    //    self.backgroundColor = _bgColor;
+    if (_dateFormat != dateFormat) {
+        _dateFormat = dateFormat;
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)drawRect:(CGRect)rect
 {
-//    CGSize contentSize = self.frame.size;
-//    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, contentSize.height)];
-//    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, contentSize.height)];
-//    line1.backgroundColor = _separatorLineColor;
-//    line2.backgroundColor = _separatorLineColor;
-//    line1.frame = CGRectMake(CELL_WIDTH_YEAR_PERCENTAGE*contentSize.width, 0, CGRectGetWidth(line1.frame), CGRectGetHeight(line1.frame));
-//    line2.frame = CGRectMake(CGRectGetMaxX(line1.frame)+CELL_WIDTH_MONTH_PERCENTAGE*contentSize.width, 0, CGRectGetWidth(line2.frame), CGRectGetHeight(line2.frame));
-//    [self addSubview:line1];
-//    [self addSubview:line2];
-//    
-//    UIView *banner = [[UIView alloc] initWithFrame:CGRectMake(0, (contentSize.height-_bannerHeight)/2, contentSize.height, _bannerHeight)];
-//    banner.backgroundColor = _bannerColor;
-//    banner.alpha = 0.75f;
-//    banner.layer.shadowColor = [UIColor blackColor].CGColor;
-//    banner.layer.shadowOffset = CGSizeMake(0, 0);
-//    banner.layer.shadowRadius = 1.0f;
-//    banner.layer.shadowOpacity = 0.2f;
-//    banner.layer.masksToBounds = NO;
-//    banner.clipsToBounds = NO;
-//    banner.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, CGRectGetHeight(banner.bounds) , CGRectGetWidth(banner.bounds), 2.5f)].CGPath;
-//    CALayer *shadowTop = [CALayer layer];
-//    shadowTop.shadowColor = [UIColor blackColor].CGColor;
-//    shadowTop.shadowOffset = CGSizeMake(0, 0);
-//    shadowTop.shadowRadius = 1.0f;
-//    shadowTop.shadowOpacity = 0.2f;
-//    shadowTop.shadowPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, -2.5f, CGRectGetWidth(banner.bounds), 2.5f)].CGPath;
-//    [banner.layer addSublayer:shadowTop];
-//    [self addSubview:banner];
-    
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
-//    self.backgroundColor = _bgColor;
     CGContextFillRect(context, rect);
-    draw1PxStroke(context, CGPointMake(CELL_WIDTH_YEAR_PERCENTAGE*rect.size.width, 0), CGPointMake(CELL_WIDTH_YEAR_PERCENTAGE*rect.size.width, rect.size.height), _separatorLineColor.CGColor);
-    draw1PxStroke(context, CGPointMake((CELL_WIDTH_YEAR_PERCENTAGE+CELL_WIDTH_MONTH_PERCENTAGE)*rect.size.width, 0), CGPointMake((CELL_WIDTH_YEAR_PERCENTAGE+CELL_WIDTH_MONTH_PERCENTAGE)*rect.size.width, rect.size.height), _separatorLineColor.CGColor);
-    CGRect bannerRect = CGRectMake(0, (rect.size.height-_bannerHeight)/2, rect.size.height, _bannerHeight);
-//    CGRect shadowRect = CGRectInset(bannerRect, -1, -1);
-//    CGRect rects[] = {bannerRect, shadowRect};
+    NSArray *portions;
+    switch (_dateFormat) {
+        case JCDateFormatFull: {
+            portions = @[@0.2, @0.36, @0.52, @0.68, @0.84, @1];
+        }
+            break;
+        case JCDateFormatDay: {
+            portions = @[@0.4, @0.7, @1];
+        }
+            break;
+        case JCDateFormatClock: {
+            portions = @[@0.33, @0.66, @1];
+        }
+            break;
+        default:
+            break;
+    }
+    for (NSNumber *number in portions) {
+        CGFloat portion = [number floatValue];
+        
+        CGPoint startPoint = CGPointMake(portion*rect.size.width, 0);
+        CGPoint endPoint = CGPointMake(portion*rect.size.width, rect.size.height);
+        draw1PxStroke(context, startPoint, endPoint, _separatorLineColor.CGColor);
+    }
+    CGRect bannerRect = CGRectMake(0, (rect.size.height-_bannerHeight)/2, rect.size.width, _bannerHeight);
     CGContextSaveGState(context);
     CGContextSetFillColorWithColor(context, [_bannerColor colorWithAlphaComponent:0.75f].CGColor);
-//    CGContextSetShadowWithColor(context, CGSizeZero, 0.7, [UIColor blackColor].CGColor);
     CGContextFillRect(context, bannerRect);
     CGContextRestoreGState(context);
-//    CGContextAddRects(context, rects, 2);
-//    CGContextSetFillColorWithColor(context, [UIColor lightGrayColor].CGColor);
-//    CGContextSetShadowWithColor(context, CGSizeZero, 2.2, [UIColor blackColor].CGColor);
-//    CGContextEOFillPath(context);
+
     CGRect upperRect = CGRectMake(0, CGRectGetMinY(bannerRect)-2, CGRectGetWidth(bannerRect), 2);
     CGRect lowerRect = CGRectMake(0, CGRectGetMaxY(bannerRect), CGRectGetWidth(bannerRect), 2);
     drawLinearGradient(context, upperRect, [UIColor clearColor].CGColor, [UIColor colorWithWhite:0 alpha:0.2].CGColor);
@@ -176,16 +192,22 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 
 @interface JCDatePicker () {
     
+    NSMutableArray *tables;
     PickerBackgroundView *pickerBackgroundView;
-    UITableView *yearsTable;
-    UITableView *monthsTable;
-    UITableView *daysTable;
+    DatePickerTableView *yearTable;
+    DatePickerTableView *monthTable;
+    DatePickerTableView *dayTable;
+    DatePickerTableView *hourTable;
+    DatePickerTableView *minuteTable;
+    DatePickerTableView *secondTable;
     
     NSInteger daysOfMonth;
     NSInteger selectedYear;
     NSInteger selectedMonth;
     NSInteger selectedDay;
-    
+    NSInteger selectedHour;
+    NSInteger selectedMinute;
+    NSInteger selectedSecond;
     //    NSDateFormatter *dateFormatter;
     NSCalendar *calendar;
     
@@ -200,13 +222,13 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 - (void)setStartYear:(NSInteger)startYear
 {
     _startYear = startYear;
-    [self refreshTable:yearsTable];
+    [self refreshTable:[tables objectAtIndex:YEAR_TAG]];
 }
 
 - (void)setYearRange:(NSInteger)yearRange
 {
     _yearRange = yearRange;
-    [self refreshTable:yearsTable];
+    [self refreshTable:[tables objectAtIndex:YEAR_TAG]];
 }
 
 - (void)setDate:(NSDate *)date
@@ -217,9 +239,9 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     selectedMonth = components.month;
     selectedDay = components.day;
     
-    [self refreshTable:yearsTable];
-    [self refreshTable:monthsTable];
-    [self refreshTable:daysTable];
+    [self refreshTable:[tables objectAtIndex:YEAR_TAG]];
+    [self refreshTable:[tables objectAtIndex:MONTH_TAG]];
+    [self refreshTable:[tables objectAtIndex:DAY_TAG]];
 }
 
 - (void)setBgColor:(UIColor *)bgColor
@@ -243,9 +265,9 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 - (void)setFont:(UIFont *)font
 {
     _font = font;
-    [self refreshTable:yearsTable];
-    [self refreshTable:monthsTable];
-    [self refreshTable:daysTable];
+    [self refreshTable:[tables objectAtIndex:YEAR_TAG]];
+    [self refreshTable:[tables objectAtIndex:MONTH_TAG]];
+    [self refreshTable:[tables objectAtIndex:DAY_TAG]];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -280,80 +302,130 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 - (void)viewInit
 {
     pickerBackgroundView = [[PickerBackgroundView alloc] initWithFrame:CGRectZero];
-    yearsTable  = [[UITableView alloc] initWithFrame:CGRectZero];
-    monthsTable = [[UITableView alloc] initWithFrame:CGRectZero];
-    daysTable   = [[UITableView alloc] initWithFrame:CGRectZero];
-    yearsTable.backgroundColor  = [UIColor clearColor];
-    monthsTable.backgroundColor = [UIColor clearColor];
-    daysTable.backgroundColor   = [UIColor clearColor];
-    yearsTable.showsVerticalScrollIndicator  = NO;
-    monthsTable.showsVerticalScrollIndicator = NO;
-    daysTable.showsVerticalScrollIndicator   = NO;
-    yearsTable.separatorStyle  = UITableViewCellSeparatorStyleNone;
-    monthsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    daysTable.separatorStyle   = UITableViewCellSeparatorStyleNone;
-    yearsTable.tag = YEARS_TAG;
-    monthsTable.tag = MONTHS_TAG;
-    daysTable.tag = DAYS_TAG;
-    yearsTable.delegate = self;
-    yearsTable.dataSource = self;
-    monthsTable.delegate = self;
-    monthsTable.dataSource = self;
-    daysTable.delegate = self;
-    daysTable.dataSource = self;
     [self addSubview:pickerBackgroundView];
-    [self addSubview:yearsTable];
-    [self addSubview:monthsTable];
-    [self addSubview:daysTable];
+    
+    tables = [NSMutableArray array];
+    
+//    yearTable  = [[DatePickerTableView alloc] initWithFrame:CGRectZero];
+//    monthTable = [[DatePickerTableView alloc] initWithFrame:CGRectZero];
+//    dayTable   = [[DatePickerTableView alloc] initWithFrame:CGRectZero];
+//    hourTable  = [[DatePickerTableView alloc] initWithFrame:CGRectZero];
+//    minuteTable = [[DatePickerTableView alloc] initWithFrame:CGRectZero];
+//    secondTable = [[DatePickerTableView alloc] initWithFrame:CGRectZero];
+//
+//    yearTable.tag = YEAR_TAG;
+//    monthTable.tag = MONTH_TAG;
+//    dayTable.tag = DAY_TAG;
+//    hourTable.tag = HOUR_TAG;
+//    minuteTable.tag = MINUTE_TAG;
+//    secondTable.tag = SECOND_TAG;
+//    
+//    yearTable.delegate = self;
+//    yearTable.dataSource = self;
+//    monthTable.delegate = self;
+//    monthTable.dataSource = self;
+//    dayTable.delegate = self;
+//    dayTable.dataSource = self;
+//    hourTable.delegate = self;
+//    hourTable.dataSource = self;
+//    minuteTable.delegate = self;
+//    minuteTable.dataSource = self;
+//    secondTable.delegate = self;
+//    secondTable.dataSource = self;
+//    
+//    
+//    [self addSubview:yearTable];
+//    [self addSubview:monthTable];
+//    [self addSubview:dayTable];
+    
+    
 }
 
 - (void)layoutViews
 {
+    self.dateFormat = JCDateFormatDay;
+    
     CGSize contentSize = self.frame.size;
     pickerBackgroundView.frame = (CGRect){.origin = CGPointMake(0, 0), .size = contentSize};
     pickerBackgroundView.backgroundColor = _bgColor;
     pickerBackgroundView.bannerColor = _pickerColor;
     pickerBackgroundView.bannerHeight = _cellHeight;
     pickerBackgroundView.separatorLineColor = _separatorLineColor;
+    pickerBackgroundView.dateFormat = _dateFormat;
     
-    yearsTable.frame = CGRectMake(0, 0, CELL_WIDTH_YEAR_PERCENTAGE*contentSize.width, contentSize.height);
-    monthsTable.frame = CGRectMake(CGRectGetMaxX(yearsTable.frame)+1, 0, CELL_WIDTH_MONTH_PERCENTAGE*contentSize.width, contentSize.height);
-    daysTable.frame = CGRectMake(CGRectGetMaxX(monthsTable.frame)+1, 0, CELL_WIDTH_DAY_PERCENTAGE*contentSize.width, contentSize.height);
-    yearsTable.contentInset  = UIEdgeInsetsMake((CGRectGetHeight(yearsTable.frame) - _cellHeight)/2, 0, (CGRectGetHeight(yearsTable.frame) - _cellHeight)/2, 0);
-    monthsTable.contentInset = UIEdgeInsetsMake((CGRectGetHeight(monthsTable.frame) - _cellHeight)/2, 0, (CGRectGetHeight(monthsTable.frame) - _cellHeight)/2, 0);
-    daysTable.contentInset   = UIEdgeInsetsMake((CGRectGetHeight(daysTable.frame) - _cellHeight)/2, 0, (CGRectGetHeight(daysTable.frame) - _cellHeight)/2, 0);
+    NSArray *portions;
+    switch (_dateFormat) {
+        case JCDateFormatFull: {
+            portions = @[@0.2, @0.36, @0.52, @0.68, @0.84, @1];
+        }
+            break;
+        case JCDateFormatDay: {
+            portions = @[@0.4, @0.7, @1];
+        }
+            break;
+        case JCDateFormatClock: {
+            portions = @[@0.33, @0.66, @1];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    for (int i=0; i<portions.count; i++) {
+        float previousPortion = i-1 < 0 ? 0 : [[portions objectAtIndex:i-1] floatValue];
+        float portion = [[portions objectAtIndex:i] floatValue];
+        CGRect frame = CGRectMake(contentSize.width*previousPortion, 0, contentSize.width*(portion-previousPortion), contentSize.height);
+        DatePickerTableView *table = [[DatePickerTableView alloc] initWithFrame:frame];
+        table.contentInset = UIEdgeInsetsMake((CGRectGetHeight(table.frame) - _cellHeight)/2, 0, (CGRectGetHeight(table.frame) - _cellHeight)/2, 0);
+        
+        [tables addObject:table];
+        [self addSubview:table];
+        table.delegate = self;
+        table.dataSource = self;
+        
+        table.tag = i;
+    }
+    
+//    yearTable.frame = CGRectMake(0, 0, CELL_WIDTH_YEAR_PERCENTAGE*contentSize.width, contentSize.height);
+//    monthTable.frame = CGRectMake(CGRectGetMaxX(yearTable.frame)+1, 0, CELL_WIDTH_MONTH_PERCENTAGE*contentSize.width, contentSize.height);
+//    dayTable.frame = CGRectMake(CGRectGetMaxX(monthTable.frame)+1, 0, CELL_WIDTH_DAY_PERCENTAGE*contentSize.width, contentSize.height);
+//    yearTable.contentInset  = UIEdgeInsetsMake((CGRectGetHeight(yearTable.frame) - _cellHeight)/2, 0, (CGRectGetHeight(yearTable.frame) - _cellHeight)/2, 0);
+//    monthTable.contentInset = UIEdgeInsetsMake((CGRectGetHeight(monthTable.frame) - _cellHeight)/2, 0, (CGRectGetHeight(monthTable.frame) - _cellHeight)/2, 0);
+//    dayTable.contentInset   = UIEdgeInsetsMake((CGRectGetHeight(dayTable.frame) - _cellHeight)/2, 0, (CGRectGetHeight(dayTable.frame) - _cellHeight)/2, 0);
 }
 
 - (void)setupControl
 {
     calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
-    [self refreshTable:yearsTable];
-    [self refreshTable:monthsTable];
-    [self refreshTable:daysTable];
-    
+//    [self refreshTable:yearTable];
+//    [self refreshTable:monthTable];
+//    [self refreshTable:dayTable];
+    [self refreshTable:[tables objectAtIndex:YEAR_TAG]];
+    [self refreshTable:[tables objectAtIndex:MONTH_TAG]];
+    [self refreshTable:[tables objectAtIndex:DAY_TAG]];
 }
 
 - (void)refreshTable:(UITableView *)table
 {
     switch (table.tag) {
-        case YEARS_TAG: {
-            [yearsTable reloadData];
+        case YEAR_TAG: {
+            [[tables objectAtIndex:YEAR_TAG] reloadData];
             if ((selectedYear < _startYear) || (selectedYear > (_startYear + _yearRange))) {
                 selectedYear = _startYear;
             }
-            [self scrollToAndSelectIndex:(selectedYear - _startYear) forTableView:yearsTable];
+            [self scrollToAndSelectIndex:(selectedYear - _startYear) forTableView:[tables objectAtIndex:YEAR_TAG]];
             break;
         }
-        case MONTHS_TAG: {
-            [monthsTable reloadData];
-            [self scrollToAndSelectIndex:(selectedMonth - 1) forTableView:monthsTable];
+        case MONTH_TAG: {
+            [[tables objectAtIndex:MONTH_TAG] reloadData];
+            [self scrollToAndSelectIndex:(selectedMonth - 1) forTableView:[tables objectAtIndex:MONTH_TAG]];
             break;
         }
-        case DAYS_TAG: {
-            [daysTable reloadData];
+        case DAY_TAG: {
+            [[tables objectAtIndex:DAY_TAG] reloadData];
             selectedDay = MIN(daysOfMonth, selectedDay);
-            [self scrollToAndSelectIndex:(selectedDay - 1) forTableView:daysTable];
+            [self scrollToAndSelectIndex:(selectedDay - 1) forTableView:[tables objectAtIndex:DAY_TAG]];
         }
         default:
             break;
@@ -365,11 +437,10 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
     [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
-    
 }
 
-- (NSInteger)getIndexForScrollViewPosition:(UIScrollView *)scrollView {
-    
+- (NSInteger)getIndexForScrollViewPosition:(UIScrollView *)scrollView
+{    
     CGFloat offsetContentScrollView = (scrollView.frame.size.height - _cellHeight) / 2.0f;
     CGFloat offetY = scrollView.contentOffset.y;
     CGFloat index = roundf((offetY + offsetContentScrollView) / _cellHeight);
@@ -382,15 +453,15 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     
     NSInteger positiveIndex = MAX(0, calculatedIndex);
     switch (tableView.tag) {
-        case YEARS_TAG:
+        case YEAR_TAG:
             return MIN(_yearRange-1, positiveIndex);
             break;
             
-        case MONTHS_TAG:
+        case MONTH_TAG:
             return MIN(12-1, positiveIndex);
             break;
             
-        case DAYS_TAG:
+        case DAY_TAG:
             return MIN(daysOfMonth-1, positiveIndex);
             break;
             
@@ -411,7 +482,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     
     if (daysRange.length != daysOfMonth) {
         daysOfMonth = daysRange.length;
-        [self refreshTable:daysTable];
+        [self refreshTable:dayTable];
     }
     
 }
@@ -435,7 +506,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     BOOL hasChanged = NO;//可能存在多线程问题//可能已解决
     
     switch (table.tag) {
-        case YEARS_TAG: {
+        case YEAR_TAG: {
             NSInteger nowYear = _startYear + index;
             if (selectedYear != nowYear) {
                 selectedYear = nowYear;
@@ -446,7 +517,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
             }
             break;
         }
-        case MONTHS_TAG: {
+        case MONTH_TAG: {
             NSInteger nowMonth = index + 1;
             if (selectedMonth != nowMonth) {
                 selectedMonth = nowMonth;
@@ -456,7 +527,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
             }
             break;
         }
-        case DAYS_TAG: {
+        case DAY_TAG: {
             NSInteger nowDay = index + 1;
             if (selectedDay != nowDay) {
                 selectedDay = nowDay;
@@ -549,15 +620,15 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (tableView.tag) {
-        case YEARS_TAG:
+        case YEAR_TAG:
             return _yearRange;
             break;
             
-        case MONTHS_TAG:
+        case MONTH_TAG:
             return 12;
             break;
             
-        case DAYS_TAG:
+        case DAY_TAG:
             return daysOfMonth;
             break;
             
@@ -578,17 +649,17 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     }
     cell.textFont = _font;
     switch (tableView.tag) {
-        case YEARS_TAG: {
+        case YEAR_TAG: {
             
             cell.textLabel.text = [NSString stringWithFormat:@"%d年",_startYear + indexPath.row];
             break;
         }
-        case MONTHS_TAG: {
+        case MONTH_TAG: {
             
             cell.textLabel.text = [NSString stringWithFormat:@"%d月",indexPath.row + 1];
             break;
         }
-        case DAYS_TAG: {
+        case DAY_TAG: {
             
             cell.textLabel.text = [NSString stringWithFormat:@"%d日",indexPath.row + 1];
             break;
