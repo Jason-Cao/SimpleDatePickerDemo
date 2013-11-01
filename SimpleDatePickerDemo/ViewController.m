@@ -26,16 +26,19 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    JCDatePicker *datePicker = [[JCDatePicker alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
+    JCDatePicker *datePicker = [[JCDatePicker alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
     datePicker.center = CGPointMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame));
     [self.view addSubview:datePicker];
     datePicker.delegate = self;
+    datePicker.font = [UIFont systemFontOfSize:7];
+    datePicker.date = [NSDate date];
     
     dateLabel = [[UILabel alloc] init];
     dateLabel.frame = CGRectMake(0, 0, 150, 50);
     dateLabel.center = CGPointMake(CGRectGetMidX(self.view.frame), CGRectGetMaxY(datePicker.frame) + 50);
     dateLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
     dateLabel.textAlignment = NSTextAlignmentCenter;
+    dateLabel.font = [UIFont systemFontOfSize:9];
     [self.view addSubview:dateLabel];
     UILabel *hint = [[UILabel alloc] init];
     CGRect hintFrame = dateLabel.frame;
@@ -48,7 +51,7 @@
     
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy年MM月dd日 HH时mm分ss秒"];
 }
 
 - (void)didReceiveMemoryWarning
