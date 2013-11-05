@@ -655,32 +655,32 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     switch (tableView.tag) {
         case YEAR_TAG: {
             
-            cell.label.text = [NSString stringWithFormat:@"%d年",_startYear + indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"Year %d",_startYear + indexPath.row];
             break;
         }
         case MONTH_TAG: {
             
-            cell.label.text = [NSString stringWithFormat:@"%d月",indexPath.row + 1];
+            cell.label.text = [NSString stringWithFormat:@"Mon %d",indexPath.row + 1];
             break;
         }
         case DAY_TAG: {
             
-            cell.label.text = [NSString stringWithFormat:@"%d日",indexPath.row + 1];
+            cell.label.text = [NSString stringWithFormat:@"Day %d",indexPath.row + 1];
             break;
         }
         case HOUR_TAG: {
             
-            cell.label.text = [NSString stringWithFormat:@"%d时",indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"hr %d",indexPath.row];
             break;
         }
         case MINUTE_TAG: {
             
-            cell.label.text = [NSString stringWithFormat:@"%d分",indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"min %d",indexPath.row];
             break;
         }
         case SECOND_TAG: {
 
-            cell.label.text = [NSString stringWithFormat:@"%d秒",indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"se %d",indexPath.row];
             break;
         }
         default:

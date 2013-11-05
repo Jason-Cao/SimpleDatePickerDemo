@@ -30,8 +30,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
-    [dateFormatter setDateFormat:@"yyyy年MM月dd日 HH时mm分ss秒"];
+    [dateFormatter setLocale:[NSLocale systemLocale]];//[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 
     datePicker = [[JCDatePicker alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
     datePicker.center = CGPointMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame));
@@ -153,15 +153,15 @@
     switch (row) {
         case 0:
             [datePicker setDateFormat:JCDateFormatFull];
-            [dateFormatter setDateFormat:@"yyyy年MM月dd日 HH时mm分ss秒"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             break;
         case 1:
             [datePicker setDateFormat:JCDateFormatDay];
-            [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             break;
         case 2:
             [datePicker setDateFormat:JCDateFormatClock];
-            [dateFormatter setDateFormat:@"HH时mm分ss秒"];
+            [dateFormatter setDateFormat:@"HH:mm:ss"];
             break;
             
         default:
