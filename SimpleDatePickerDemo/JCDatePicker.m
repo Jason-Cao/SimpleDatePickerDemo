@@ -599,14 +599,15 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 
 #pragma mark - UITableView Delegate
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    [self scrollToAndSelectIndex:indexPath.row forTableView:tableView];
+    [self updateSelectedDateAtIndex:indexPath.row forTablelView:tableView];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return NO;
+    return YES;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
