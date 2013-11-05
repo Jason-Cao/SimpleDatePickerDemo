@@ -63,6 +63,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 @interface DateFilterCell : UITableViewCell
 
 @property (nonatomic, strong) UIFont *textFont;
+@property (nonatomic, readonly) UILabel *label;
 
 @end
 
@@ -74,9 +75,11 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor clearColor];
-        self.textLabel.backgroundColor = [UIColor clearColor];
-        self.textLabel.textAlignment = NSTextAlignmentCenter;
         self.backgroundColor = [UIColor clearColor];
+        _label = [[UILabel alloc] initWithFrame:self.bounds];
+        _label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        _label.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:_label];
     }
     return self;
 }
@@ -86,11 +89,11 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     [super setSelected:selected animated:animated];
     
     if (selected) {
-        self.textLabel.font = [_textFont fontWithSize:_textFont.pointSize + 1];
-        self.textLabel.textColor = [UIColor whiteColor];
+        _label.font = [_textFont fontWithSize:_textFont.pointSize + 1];
+        _label.textColor = [UIColor whiteColor];
     } else {
-        self.textLabel.font = _textFont;
-        self.textLabel.textColor = [UIColor blackColor];
+        _label.font = _textFont;
+        _label.textColor = [UIColor blackColor];
     }
 }
 
@@ -151,6 +154,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextClearRect(context, rect);
     CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
     CGContextFillRect(context, rect);
     NSArray *portions;
@@ -222,6 +226,14 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
 
 @implementation JCDatePicker
 
+- (void)setDateFormat:(JCDateFormat)dateFormat
+{
+    if (_dateFormat != dateFormat) {
+        _dateFormat = dateFormat;
+        [self layoutViews];
+    }
+}
+
 - (void)setStartYear:(NSInteger)startYear
 {
     _startYear = startYear;
@@ -281,7 +293,6 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
         [self viewInit];
         [self setDefaults];
         [self layoutViews];
-        [self setupControl];
     }
     return self;
 }
@@ -292,6 +303,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     [self addSubview:pickerBackgroundView];
     
     componentTables = [NSMutableDictionary dictionary];
+    calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 }
 
 - (void)setDefaults
@@ -319,6 +331,12 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     pickerBackgroundView.bannerHeight = _cellHeight;
     pickerBackgroundView.separatorLineColor = _separatorLineColor;
     pickerBackgroundView.dateFormat = _dateFormat;
+    
+    //clear tables before layout
+    for (UITableView *table in componentTables.allValues) {
+        [table removeFromSuperview];
+    }
+    [componentTables removeAllObjects];
     
     NSArray *portions;
     switch (_dateFormat) {
@@ -352,12 +370,6 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
         }
         previousPortionSum += currentPortion;
     }
-}
-
-- (void)setupControl
-{
-    calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    
     [self refreshTables];
 }
 
@@ -568,10 +580,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
      **/
     
     float targetOffsetY = targetContentOffset->y;
-    //    NSLog(@"target offset y: %f",targetOffsetY);
     float adjustedOffsetY = round(targetOffsetY/_cellHeight)*_cellHeight;
-    //    NSLog(@"adjusted offset y: %f",adjustedOffsetY);
-    
     *targetContentOffset = CGPointMake(targetContentOffset->x, adjustedOffsetY);
 }
 
@@ -653,32 +662,32 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
     switch (tableView.tag) {
         case YEAR_TAG: {
             
-            cell.textLabel.text = [NSString stringWithFormat:@"%d年",_startYear + indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"%d年",_startYear + indexPath.row];
             break;
         }
         case MONTH_TAG: {
             
-            cell.textLabel.text = [NSString stringWithFormat:@"%d月",indexPath.row + 1];
+            cell.label.text = [NSString stringWithFormat:@"%d月",indexPath.row + 1];
             break;
         }
         case DAY_TAG: {
             
-            cell.textLabel.text = [NSString stringWithFormat:@"%d日",indexPath.row + 1];
+            cell.label.text = [NSString stringWithFormat:@"%d日",indexPath.row + 1];
             break;
         }
         case HOUR_TAG: {
             
-            cell.textLabel.text = [NSString stringWithFormat:@"%d时",indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"%d时",indexPath.row];
             break;
         }
         case MINUTE_TAG: {
             
-            cell.textLabel.text = [NSString stringWithFormat:@"%d分",indexPath.row];
+            cell.label.text = [NSString stringWithFormat:@"%d分",indexPath.row];
             break;
         }
         case SECOND_TAG: {
-            
-            cell.textLabel.text = [NSString stringWithFormat:@"%d秒",indexPath.row];
+
+            cell.label.text = [NSString stringWithFormat:@"%d秒",indexPath.row];
             break;
         }
         default:
