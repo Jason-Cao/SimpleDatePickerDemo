@@ -9,20 +9,12 @@
 #define DATE_FORMAT_FULL_PORTIONS @[@0.2, @0.16, @0.16, @0.16, @0.16, @0.16]
 #define DATE_FORMAT_DAY_PORTIONS @[@0.4, @0.3, @0.3, @0, @0, @0]
 #define DATE_FORMAT_CLOCK_PORTIONS @[@0, @0, @0, @0.33, @0.33, @0.34]
-#define CELL_WIDTH_YEAR_PERCENTAGE 0.4
-#define CELL_WIDTH_MONTH_PERCENTAGE 0.3
-#define CELL_WIDTH_DAY_PERCENTAGE 0.3
-#define CELL_WIDTH_YEAR 66
-#define CELL_WIDTH_MONTH 59
-#define CELL_WIDTH_DAY 59
 #define YEAR_TAG 0
 #define MONTH_TAG 1
 #define DAY_TAG 2
 #define HOUR_TAG 3
 #define MINUTE_TAG 4
 #define SECOND_TAG 5
-
-
 
 void draw1PxStroke(CGContextRef context, CGPoint startPoint, CGPoint endPoint, CGColorRef color)
 {

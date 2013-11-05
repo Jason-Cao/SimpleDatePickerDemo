@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>477B95C8-8665-44B0-9028-9D2DEF226191</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SimpleDatePickerDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>81808B88-FC69-4695-826C-9F77239F03F2</key>
+		<string>https://github.com/Jason-Cao/SimpleDatePickerDemo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SimpleDatePickerDemo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>81808B88-FC69-4695-826C-9F77239F03F2</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Jason-Cao/SimpleDatePickerDemo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>81808B88-FC69-4695-826C-9F77239F03F2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>81808B88-FC69-4695-826C-9F77239F03F2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SimpleDatePickerDemo</string>
+		</dict>
+	</array>
+</dict>
+</plist>
