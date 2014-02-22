@@ -69,6 +69,7 @@ void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor
         self.contentView.backgroundColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         _label = [[UILabel alloc] initWithFrame:self.bounds];
+        _label.backgroundColor = [UIColor clearColor];
         _label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_label];
